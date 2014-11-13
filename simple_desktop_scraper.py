@@ -8,7 +8,7 @@ import os
 
 # global constants
 CONFIG_FILE = ".img_dl_links.p"
-DOWNLOAD_PATH = ".dl_path.p"
+DOWNLOAD_PATH = ".dl_path.txt"
 BASE_URL = "http://simpledesktops.com"
 
 
@@ -97,14 +97,17 @@ def update_config_file(img_link):
 def main():
     if file_exist_status(CONFIG_FILE) and file_exist_status(DOWNLOAD_PATH):
         img_dl_links = pickle.load(open(CONFIG_FILE, "rb"))
-        PATH = pickle.load(open(DOWNLOAD_PATH, "rb"))
+        PATH = ""
+        with open(DOWNLOAD_PATH) as f:
+            PATH = f.read()
         print "downloading wallpapers be patience..."
         print "to terminate/stop script press Ctrl+z"
         download_images(img_dl_links, PATH)
         print "wallpapers download complete"
     else:
         PATH = get_dl_path()
-        pickle.dump(PATH, open(DOWNLOAD_PATH, "wb"))
+        with open(DOWNLOAD_PATH, "w") as f:
+            f.write(PATH)
         img_dl_links = get_all_image_links()
         pickle.dump(img_dl_links, open(CONFIG_FILE, "wb"))
         print "downloading wallpapers be patience..."

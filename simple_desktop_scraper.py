@@ -5,8 +5,8 @@ import urllib
 import os
 
 # global constants
-CONFIG_FILE = "img_dl_links.p"
-DOWNLOAD_PATH = "dl_path.p"
+CONFIG_FILE = ".img_dl_links.p"
+DOWNLOAD_PATH = ".dl_path.p"
 BASE_URL = "http://simpledesktops.com"
 __author__ = "Vishvendra Singh"
 __version__ = 0.1

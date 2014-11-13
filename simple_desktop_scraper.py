@@ -29,14 +29,14 @@ def image_links_from_page(htmlsource):
     else:
         return img_links, None
 
-    
+
 def extract_img_url(img_links):
     tmp = []
     for each_link in img_links:
-        if "png" in each_link:
-            tmp.append(each_link[0:each_link.find("png") + 3])
-        elif "jpg" in each_link:
-            tmp.append(each_link[0: each_link.find("jpg") + 3])
+        if "jpg" in each_link:
+            tmp.append(each_link[0:each_link.find("jpg") + 3])
+        elif "png" in each_link:
+            tmp.append(each_link[0: each_link.find("png") + 3])
     return tmp
 
 
@@ -98,14 +98,19 @@ def main():
     if file_exist_status(CONFIG_FILE) and file_exist_status(DOWNLOAD_PATH):
         img_dl_links = pickle.load(open(CONFIG_FILE, "rb"))
         PATH = pickle.load(open(DOWNLOAD_PATH, "rb"))
+        print "downloading wallpapers be patience..."
+        print "to terminate/stop script press Ctrl+z"
         download_images(img_dl_links, PATH)
+        print "wallpapers download complete"
     else:
         PATH = get_dl_path()
         pickle.dump(PATH, open(DOWNLOAD_PATH, "wb"))
         img_dl_links = get_all_image_links()
         pickle.dump(img_dl_links, open(CONFIG_FILE, "wb"))
+        print "downloading wallpapers be patience..."
+        print "to terminate/stop script press Ctrl+z"
         download_images(img_dl_links, PATH)
-        print "download completed"
+        print "wallpapers download complete"
 
 
 if __name__ == "__main__":

@@ -12,7 +12,6 @@ DOWNLOAD_PATH = ".dl_path.p"
 BASE_URL = "http://simpledesktops.com"
 
 
-
 def image_links_from_page(htmlsource):
     """returns images links and address of next page"""
     img_links = []
@@ -22,15 +21,23 @@ def image_links_from_page(htmlsource):
         soup2 = BeautifulSoup(str(each_div))
         img_links.append(soup2.find("img")["src"])
 
-    # getting actual link for image file
-    img_links = [each_link[0:each_link.find("png") + 3] for each_link in img_links]  # for png
-    img_links = [each_link[0:each_link.find("jpg") + 3] for each_link in img_links if "jpg" in each_link]  # for jpg
+    img_links = extract_img_url(img_links)
 
     next_link = soup.find("a", {"class": "more"})
     if next_link:
         return img_links, next_link["href"]
     else:
         return img_links, None
+
+    
+def extract_img_url(img_links):
+    tmp = []
+    for each_link in img_links:
+        if "png" in each_link:
+            tmp.append(each_link[0:each_link.find("png") + 3])
+        elif "jpg" in each_link:
+            tmp.append(each_link[0: each_link.find("jpg") + 3])
+    return tmp
 
 
 def file_exist_status(file_name):

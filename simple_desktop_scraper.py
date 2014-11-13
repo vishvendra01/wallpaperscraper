@@ -1,3 +1,5 @@
+__author__ = "Vishvendra Singh"
+__version__ = 0.1
 import cPickle as pickle
 from bs4 import BeautifulSoup
 import requests
@@ -8,8 +10,7 @@ import os
 CONFIG_FILE = ".img_dl_links.p"
 DOWNLOAD_PATH = ".dl_path.p"
 BASE_URL = "http://simpledesktops.com"
-__author__ = "Vishvendra Singh"
-__version__ = 0.1
+
 
 
 def image_links_from_page(htmlsource):

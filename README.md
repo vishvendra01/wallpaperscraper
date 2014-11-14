@@ -1,6 +1,6 @@
 wallpaperscraper
 ================
-
+######Right now having some issues in script. so wallpapers not downloading correctly. I am  working on it..
 This python script download all wallpapers from [simpledesktops](http://simpledesktops.com) and support resuming so if you loose 
 your internet connection or want to download later just start script again to downloading remaining wallpapers.
 How to use
@@ -20,4 +20,4 @@ To make this work you need these things installed on computer
 
 others
 ------
-if got into any problem please notify me..
+if got into any problem please notify me.

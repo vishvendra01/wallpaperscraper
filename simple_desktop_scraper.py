@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 import urllib
 import os
+import time
 
 # global constants
 CONFIG_FILE = ".img_dl_links.p"
@@ -49,7 +50,7 @@ def file_exist_status(file_name):
 
 
 def get_all_image_links():
-    """retrieves all image links of images available on simpledesktop.com"""
+    """retrieves all image links of images available on simpledesktops.com"""
     img_dl_links = []
     next_link = "/browse/1/"
     while next_link:
@@ -85,6 +86,7 @@ def download_images(img_dl_links, PATH):
     for img_dl_link in img_dl_links:
         urllib.urlretrieve(img_dl_link, os.path.join(PATH, img_dl_link.split("/")[-1]))
         update_config_file(img_dl_link)
+        time.sleep(1)
 
 
 def update_config_file(img_link):

@@ -1,9 +1,10 @@
 __author__ = "Vishvendra Singh"
 __version__ = 0.1
+
+
 import cPickle as pickle
 from bs4 import BeautifulSoup
 import requests
-import urllib
 import os
 import time
 
@@ -83,9 +84,11 @@ def get_dl_path():
 
 def download_images(img_dl_links, PATH):
     """download images and remove downloaded images from img_links"""
-    for img_dl_link in img_dl_links:
-        urllib.urlretrieve(img_dl_link, os.path.join(PATH, img_dl_link.split("/")[-1]))
-        update_config_file(img_dl_link)
+    for img_url in img_dl_links:
+        tmp = requests.request('get', img_url)
+        with open(os.path.join(PATH, img_url.split('/')[-1]), 'w') as f:
+            f.write(tmp.content)
+        update_config_file(img_url)
         time.sleep(1)
 
 

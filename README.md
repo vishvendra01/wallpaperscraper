@@ -1,14 +1,10 @@
 wallpaperscraper
 ================
-This python script download all wallpapers from [simpledesktops](http://simpledesktops.com) and support resuming so if you loose 
-your internet connection or want to download later just start script again to downloading remaining wallpapers.
+This python script download/scraps all wallpapers from [simpledesktops](http://simpledesktops.com). It support resuming so after stopping script in middle of downloading you can resume download from where you left.
 How to use
 -----------
-To run this script just download script and put in somewhere your computer and run script using using usual method.
-`python simple_desktop_scraper.py` at first time it will ask path where to save wallpapers. To stop script you have terminate
-script. To terminate on linux use `Ctrl + z` for terminate on windows use `Ctrl + c`. once path given it will start to gather all image links.
-just sit and few hours it will download all images(depend on your internet connectiong but don't worry you can just
-terminate script or start again to download again without downloading already downloaded wallpapers again)
+To run this script you have to first download it. You can download by using git clone or by downloading zip archive using github. After downloading and extracting zip archive you have to run `simple_desktop_scraper.py` to download wallpapers. To run use `python simple_desktop_scraper.py` at first time it will ask path where to save wallpapers. To stop script you have terminate
+script. To terminate on linux use `Ctrl + z` for terminate on windows use `Ctrl + c`.
 
 requirements
 ------------

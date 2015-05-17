@@ -106,10 +106,15 @@ def query():
 
 
 def get_dl_path():
+    # TODO: Find a way to check input. If using Linux, using something like '~/Wallpapers' doesn't work, but
+    # Explicitly using '/home/user/Wallpapers' does work.
+    """
+    Grabs download path from user, and creates it if it doesn't exist.
+    :return: Download path
+    """
     PATH = input("input path to save files: ")
     if os.path.isdir(PATH) and os.access(PATH, os.W_OK):
         print("given path accepted")
-        return PATH
     else:
         print("path is not valid. Create now? (Y/n): ")
         answer = query()
@@ -117,6 +122,8 @@ def get_dl_path():
             os.makedirs(PATH)
         else:
             get_dl_path()
+    print(PATH)
+    return PATH
 
 
 def download_images(img_dl_links, PATH):

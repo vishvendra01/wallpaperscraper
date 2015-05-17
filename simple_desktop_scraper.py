@@ -1,12 +1,15 @@
 __author__ = "Vishvendra Singh"
 __version__ = 0.1
 
-from bs4 import BeautifulSoup
-import progressbar
-import requests
 import os
 import sys
 import time
+
+from bs4 import BeautifulSoup
+import requests
+
+import progressbar
+
 try:
     import cPickle as pickle
 except ImportError:
@@ -113,7 +116,8 @@ def get_dl_path():
         answer = query()
         if answer:
             os.makedirs(PATH)
-        get_dl_path()
+        else:
+            get_dl_path()
 
 
 def download_images(img_dl_links, PATH):

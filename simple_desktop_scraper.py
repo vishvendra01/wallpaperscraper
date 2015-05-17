@@ -106,13 +106,12 @@ def query():
 
 
 def get_dl_path():
-    print("input path to save files:")
-    PATH = input()
+    PATH = input("input path to save files: ")
     if os.path.isdir(PATH) and os.access(PATH, os.W_OK):
         print("given path accepted")
         return PATH
     else:
-        print("path is not valid. Create now? (Y/n):")
+        print("path is not valid. Create now? (Y/n): ")
         answer = query()
         if answer:
             os.makedirs(PATH)

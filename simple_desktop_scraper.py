@@ -1,13 +1,20 @@
 __author__ = "Vishvendra Singh"
 __version__ = 0.1
 
-
-import cPickle as pickle
-from bs4 import BeautifulSoup
-import progressbar
-import requests
 import os
+import sys
 import time
+
+from bs4 import BeautifulSoup
+import requests
+
+import progressbar
+
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
+
 
 # global constants
 CONFIG_FILE = ".img_dl_links.p"
@@ -54,7 +61,7 @@ def file_exist_status(file_name):
 def get_all_image_links():
     """retrieves all image links of images available on simpledesktops.com"""
     pbar = progressbar.AnimatedProgressBar(end=47, width=50)
-    print "getting all links for image urls"
+    print("getting all links for image urls")
     pbar.show_progress()
     img_dl_links = []
     next_link = "/browse/1/"
@@ -69,7 +76,7 @@ def get_all_image_links():
         pbar.show_progress()
         # print next_link
     # flattening list of links
-    print 
+    print()
     tmp = []
     for x in img_dl_links:
         for y in x:
@@ -78,33 +85,62 @@ def get_all_image_links():
     return img_dl_links
 
 
-def get_dl_path():
-    print "input path to save files:",
-    PATH = raw_input()
-    if os.path.isdir(PATH) and os.access(PATH, os.W_OK):
-        print "given path accepted"
-        return PATH
+def query():
+    """Prompts user for a yes/no answer
+    if user responds with 'yes', 'ye', or 'y', return True
+    if user responds with 'no' or 'n', return False.
+    else: return None
+    """
+
+    # raw_input returns the empty string for "enter"
+    yes = {'yes', 'y', 'ye', ''}
+    no = {'no', 'n'}
+
+    choice = input().lower()
+    if choice in yes:
+        return True
+    elif choice in no:
+        return False
     else:
-        print "path is not valid"
-        get_dl_path()
+        sys.stdout.write("Please respond with 'yes' or 'no'")
+
+
+def get_dl_path():
+    # TODO: Find a way to check input. If using Linux, using something like '~/Wallpapers' doesn't work, but
+    # Explicitly using '/home/user/Wallpapers' does work.
+    """
+    Grabs download path from user, and creates it if it doesn't exist.
+    :return: Download path
+    """
+    PATH = input("input path to save files: ")
+    if os.path.isdir(PATH) and os.access(PATH, os.W_OK):
+        print("given path accepted")
+    else:
+        print("path is not valid. Create now? (Y/n): ")
+        answer = query()
+        if answer:
+            os.makedirs(PATH)
+        else:
+            get_dl_path()
+    print(PATH)
+    return PATH
 
 
 def download_images(img_dl_links, PATH):
     """download images and remove downloaded images from img_links"""
     end = len(img_dl_links)
     pbar = progressbar.AnimatedProgressBar(end=end, width=50)
-    print 'downloading wallpapers..'
+    print('downloading wallpapers..')
     pbar.show_progress()
     for img_url in img_dl_links:
         tmp = requests.request('get', img_url)
         with open(os.path.join(PATH, img_url.split('/')[-1]), 'w') as f:
-            f.write(tmp.content)
+            f.write(str(tmp.content))
         update_config_file(img_url)
         time.sleep(1)
         pbar += 1
         pbar.show_progress()
-    print 
-
+    print()
 
 
 def update_config_file(img_link):
@@ -120,19 +156,19 @@ def main():
         PATH = ""
         with open(DOWNLOAD_PATH) as f:
             PATH = f.read()
-        print "[resuming wallpaper download]"
-        print "[to stop downloading press Ctrl+z]"
+        print("[resuming wallpaper download]")
+        print("[to stop downloading press Ctrl+z]")
         download_images(img_dl_links, PATH)
-        print "wallpapers download complete"
+        print("wallpapers download complete")
     else:
         PATH = get_dl_path()
         with open(DOWNLOAD_PATH, "w") as f:
             f.write(PATH)
         img_dl_links = get_all_image_links()
         pickle.dump(img_dl_links, open(CONFIG_FILE, "wb"))
-        print "[to stop downloading press Ctrl+z]"
+        print("[to stop downloading press Ctrl+z]")
         download_images(img_dl_links, PATH)
-        print "wallpapers download complete"
+        print("wallpapers download complete")
 
 
 if __name__ == "__main__":
